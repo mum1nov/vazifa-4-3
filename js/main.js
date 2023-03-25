@@ -1,0 +1,20 @@
+const elForm = document.querySelector(".form")
+const elInput = document.querySelector(".input")
+const elBtn = document.querySelector(".btn")
+const elText=document.querySelector(".text")
+const elSpel=document.querySelector(".spel")
+const elAudio=document.querySelector(".audio")
+
+elForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    console.log(elInput.value)
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${elInput.value}`)
+        .then(response => response.json())
+        .then(data =>{
+            console.log(data)
+            elText.innerHTML=Object.values(data[0].meanings[0].definitions[0].definition.split(","))
+            elSpel.innerHTML=Object.values(data[0].phonetics[0].text.split(','))
+            elAudio.src=Object.values(data[0].phonetics[0].audio.split(","))
+            console.log(elAudio)
+        })
+})
